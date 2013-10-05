@@ -70,9 +70,9 @@ class ContactListPage(webapp2.RequestHandler):
       contact_list = Contact.all()
       for contact in contact_list:
           self.response.out.write("<li>")
-          self.response.out.write(contact.name)
-          self.response.out.write(" - ")
-          self.response.out.write(contact.birthday)
+          self.response.out.write("%s -- %s"%(contact.name, contact.birthday))
+          #self.response.out.write(" - ")
+          #self.response.out.write(contact.birthday)
           self.response.out.write("</li>")
       self.response.out.write("</ul></body></html>")
 
