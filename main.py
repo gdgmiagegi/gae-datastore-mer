@@ -64,6 +64,15 @@ class MainPage(webapp2.RequestHandler):
         </body>
       </html>""")
 
+class ContactListPage(webapp2.RequestHandler):
+  def get(self):
+      self.response.out.write("<html><body>Liste de contact<ul>")
+      contact_list = Contact.query.fetch(50)
+      for contact in contact_list:
+          self.response.out.write("<li>")
+          self.response.out.write(contact.name)
+          self.response.out.write("</li>")
+      self.response.out.write("</ul></body></html>")
 
 class SubmitForm(webapp2.RequestHandler):
   def post(self):
@@ -74,6 +83,7 @@ class SubmitForm(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
   ('/', MainPage),
+  ('/list', ContactListPage),
   ('/save', SubmitForm)
 ])
 
