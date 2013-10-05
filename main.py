@@ -70,12 +70,6 @@ class SubmitForm(webapp2.RequestHandler):
       scott = Contact(name=self.request.get('name'))
       scott = Contact(birthday=self.request.get('birthday'))
       scott.put()
-      PhoneNumber(contact=scott,
-            phone_type='home',
-            number='(650) 555 - 2200').put()
-      PhoneNumber(contact=scott,
-            phone_type='mobile',
-            number='(650) 555 - 2201').put()
 
 
 app = webapp2.WSGIApplication([
