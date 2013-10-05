@@ -10,7 +10,7 @@ class Contact(db.Model):
 
     # Basic info.
     name = db.StringProperty()
-    birthday = db.DateProperty()
+    birthday = db.StringProperty()
 
     # Address info.
     address = db.StringProperty()
@@ -45,7 +45,7 @@ class MainPage(webapp2.RequestHandler):
         </head>
         <body>
           <form action="/save" method="post">
-            <div>Name: <input type="text" name="name"/></div>
+            <div>Name: <input type="text" name="cont_name"/></div>
             <div>Birthday: <input type="text" name="birthday" /></div>
             <h3>Company</h3>
             <div>Title: <input type="text" name="company_title" /></div>
@@ -67,18 +67,20 @@ class MainPage(webapp2.RequestHandler):
 class ContactListPage(webapp2.RequestHandler):
   def get(self):
       self.response.out.write("<html><body>Liste de contact<ul>")
-      contact_list = Contact.query.fetch(50)
+      contact_list = Contact.all()
       for contact in contact_list:
           self.response.out.write("<li>")
           self.response.out.write(contact.name)
+          self.response.out.write(" - ")
+          self.response.out.write(contact.birthday)
           self.response.out.write("</li>")
       self.response.out.write("</ul></body></html>")
 
 class SubmitForm(webapp2.RequestHandler):
   def post(self):
-      scott = Contact(name=self.request.get('name'))
-      scott = Contact(birthday=self.request.get('birthday'))
-      scott.put()
+      cont = Contact(name=self.request.get('cont_name'), birthday=self.request.get('birthday'))
+      cont.put()
+      self.redirect('/list')
 
 
 app = webapp2.WSGIApplication([
