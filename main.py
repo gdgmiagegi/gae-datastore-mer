@@ -6,37 +6,38 @@ import webapp2
 from google.appengine.ext import ndb
 
 
-class Contact(db.Model):
+class Contact(ndb.Model):
 
     # Basic info.
-    name = db.StringProperty()
-    birth_day = db.DateProperty()
+    name = ndb.StringProperty()
+    birth_day = ndb.DateProperty()
 
     # Address info.
-    address = db.PostalAddressProperty()
+    address = ndb.PostalAddressProperty()
 
     # The original phone_number property has been replaced by
     # an implicitly created property called 'phone_numbers'.
 
     # Company info.
-    company_title = db.StringProperty()
-    company_name = db.StringProperty()
-    company_description = db.StringProperty()
-    company_address = db.PostalAddressProperty()
+    company_title = ndb.StringProperty()
+    company_name = ndb.StringProperty()
+    company_description = ndb.StringProperty()
+    company_address = ndb.PostalAddressProperty()
 
 
-class PhoneNumber(db.Model):
-    contact = db.ReferenceProperty(Contact,
+class PhoneNumber(ndb.Model):
+    contact = ndb.ReferenceProperty(Contact,
                                    collection_name='phone_numbers')
-    phone_type = db.StringProperty(
+    phone_type = ndb.StringProperty(
         choices=('home', 'work', 'fax', 'mobile', 'other'))
-    number = db.PhoneNumberProperty()
+    number = ndb.PhoneNumberProperty()
 
 
 class MainPage(webapp2.RequestHandler):
   def get(self):
     self.response.out.write("""
-        <html><body>
+      <html>
+        <body>
           <form action="/save" method="post">
             <div>Name: <input type="text" /></div>
             <div>Name: <input type="text" /></div>
@@ -56,11 +57,14 @@ class MainPage(webapp2.RequestHandler):
         </body>
       </html>""")
 
+
 class SubmitForm(webapp2.RequestHandler):
   def post(self):
       print "toto"
+
 
 app = webapp2.WSGIApplication([
   ('/', MainPage),
   ('/save', SubmitForm)
 ])
+
